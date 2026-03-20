@@ -6,7 +6,8 @@ from news.models import Headline, EHeadline, SHeadline, PHeadline, LHeadline, EN
 from .gemini_api import GeminiAPI
 
 # Gemini API configuration
-API_KEY = "AIzaSyC6gOxwWLT2froUzKBgilY0nJEEuV2gCqA"
+import os
+API_KEY = os.getenv("API_KEY")
 MODEL_NAME = "gemini-1.5-flash"
 
 # Initialize the Gemini API client
