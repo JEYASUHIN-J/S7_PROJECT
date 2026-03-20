@@ -1,0 +1,141 @@
+{% extends "news/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header mb-4">
+                <h1 class="text-center"><i class="fas fa-microchip mr-3"></i>Technology News</h1>
+                <p class="text-center text-muted">Latest technology updates and innovations</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for object in object_list %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm hover-card">
+                    <div class="card-img-container">
+                        <img src="{{ object.image }}" class="card-img-top" alt="{{ object.title }}" style="height: 300px; object-fit: cover;">
+                        <span class="source-badge badge badge-primary">{{ object.source }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'article_detail' article_type='tech' pk=object.id %}" class="text-dark">{{ object.title }}</a>
+                        </h5>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="rating">
+                                {% with avg_rating=object.comments.all|dictsort:"rating"|last %}
+                                    {% if avg_rating %}
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= avg_rating.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <small class="text-muted ml-1">({{ object.comments.count }} reviews)</small>
+                                    {% else %}
+                                        <span class="text-muted"><i class="far fa-star text-muted mr-1"></i>No ratings yet</span>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                            <div class="comment-count">
+                                <i class="fas fa-comments text-secondary mr-1"></i>
+                                <span class="badge badge-secondary">{{ object.comments.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ object.url }}" class="btn btn-primary" target="_blank">
+                                <i class="fas fa-external-link-alt mr-1"></i>Read Original
+                            </a>
+                            <a href="{% url 'article_detail' article_type='tech' pk=object.id %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-comment-alt mr-1"></i>Comment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle mr-2"></i>No technology news available right now. 
+                    <a href="{% url 'scrape' %}" class="alert-link">Click here to fetch the latest news</a>.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation" class="d-flex justify-content-center">
+                {% if is_paginated %}
+                    <ul class="pagination pagination-lg">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="First">
+                                    <span aria-hidden="true"><i class="fas fa-angle-double-left"></i></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true"><i class="fas fa-angle-left"></i></span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true"><i class="fas fa-angle-right"></i></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                    <span aria-hidden="true"><i class="fas fa-angle-double-right"></i></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .card-img-container {
+        position: relative;
+    }
+    
+    .source-badge {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+</style>
+{% endblock content %}

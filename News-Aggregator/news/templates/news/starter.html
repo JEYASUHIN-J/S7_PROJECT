@@ -1,0 +1,221 @@
+{% extends "news/base1.html" %}
+{% load static %}
+{% block content %}
+	<!-- home
+   ================================================== -->
+   <section id="home" data-parallax="scroll" data-image-src="{% static 'news/images/hero-bg.jpg' %}" data-natural-width=3000 data-natural-height=2000>
+
+        <div class="overlay"></div>
+        <div class="home-content">        
+
+            <div class="row contents">                     
+                <div class="home-content-left">
+
+                    <h3 data-aos="fade-up">Welcome to</h3>
+
+                    <h1 data-aos="fade-up">
+                        AI-Based<br>
+                        News Aggregator<br>
+                        Stay Updated
+                    </h1>
+
+                 
+
+                    <div class="buttons" data-aos="fade-up">
+
+                        
+
+
+
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'menu' %}" class=" button stroke">
+                                <span class="icon-dashboard" aria-hidden="true"></span>
+                                Go to Dashboard
+                            </a>
+
+                           
+                        {% else %}
+                            <a href="{% url 'login' %}" class=" button stroke">
+                                <span class="icon-login" aria-hidden="true"></span>
+                                Get Started
+                            </a>
+                        {% endif %}
+                    </div>                                         
+
+                </div>
+            </div>
+
+        </div> <!-- end home-content -->
+
+        <ul class="home-social-list">
+            <li>
+                <a href="#"><i class="fa fa-facebook-square"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-youtube-play"></i></a>
+            </li>
+        </ul>
+        <!-- end home-social-list -->
+
+        <div class="home-scrolldown">
+            <a href="#about" class="scroll-icon smoothscroll">
+                <span>Scroll Down</span>
+                <i class="icon-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+    </section> <!-- end home -->  
+
+    <!-- about
+    ================================================== -->
+    <section id="about">
+
+        <div class="row about-intro">
+
+            <div class="col-four">
+                <h1 class="intro-header" data-aos="fade-up">About Our AI News Aggregator</h1>
+            </div>
+            <div class="col-eight">
+                <p class="lead" data-aos="fade-up">
+                    Our AI-powered news aggregator brings you the latest news from various categories, curated and enhanced with artificial intelligence. Stay informed with personalized news recommendations and AI-generated insights.
+                </p>
+            </div>                       
+            
+        </div>
+
+        <div class="row about-features">
+
+            <div class="features-list block-1-3 block-m-1-2 block-mob-full group">
+
+                <div class="bgrid feature" data-aos="fade-up">	
+
+                    <span class="icon"><i class="icon-window"></i></span>            
+
+                    <div class="service-content">	
+
+                        <h3>AI-Powered Insights</h3>
+
+                        <p>Get intelligent summaries and key takeaways from news articles using advanced AI technology. Our system analyzes and presents the most important information in an easy-to-understand format.
+                        </p>
+                        
+                    </div> 	         	 
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">	
+
+                    <span class="icon"><i class="icon-image"></i></span>                          
+
+                    <div class="service-content">	
+                        <h3>Personalized News</h3>  
+
+                        <p>Receive news recommendations tailored to your interests. Our AI learns from your reading habits and preferences to deliver content that matters most to you.
+                        </p>
+
+                    </div>	                          
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-paint-brush"></i></span>		            
+
+                    <div class="service-content">
+                        <h3>Multiple Categories</h3>
+
+                        <p>Access news from various categories including Technology, Economy, Sports, Politics, Lifestyle, and Entertainment. All curated and organized for your convenience.
+                        </p> 
+                            
+                    </div> 	            	               
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-file"></i></span>	              
+
+                    <div class="service-content">
+                        <h3>User Reviews & Comments</h3>
+
+                        <p>Engage with the community through comments and ratings. Share your thoughts and read what others have to say about the latest news.
+                        </p> 
+                        
+                    </div>                
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-sliders"></i></span>	            
+
+                    <div class="service-content">	
+                        <h3>Easy Navigation</h3>
+
+                        <p>Intuitive interface with easy-to-use tabs and categories. Find the news you're interested in with just a few clicks.
+                        </p>                            
+                    </div>	               
+
+                </div> <!-- /bgrid -->
+
+                <div class="bgrid feature" data-aos="fade-up">
+
+                    <span class="icon"><i class="icon-gift"></i></span>	   	           
+
+                    <div class="service-content">
+                        <h3>Free Access</h3>
+
+                        <p>All features are available free of charge. No subscription required to access our comprehensive news aggregation service.
+                        </p> 
+                            
+                    </div>	               
+
+                </div> <!-- /bgrid -->
+
+            </div> <!-- end features-list -->
+
+        </div> <!-- end about-features -->
+
+        <div class="row about-how">
+          
+            <h1 class="intro-header" data-aos="fade-up">How It Works</h1>           
+
+            <div class="about-how-content" data-aos="fade-up">
+                <div class="about-how-steps block-1-2 block-tab-full group">
+
+                    <div class="bgrid step" data-item="1">
+                        <h3>Create Account</h3>
+                        <p>Sign up for a free account to access all features and personalize your news experience.
+                        </p> 
+                    </div>
+
+                    <div class="bgrid step" data-item="2">
+                        <h3>Choose Categories</h3>
+                        <p>Select your preferred news categories and topics to receive personalized content.
+                        </p> 
+                    </div>               
+               
+                    <div class="bgrid step" data-item="3">
+                        <h3>Read & Engage</h3>
+                        <p>Read news articles, leave comments, and rate content to help improve recommendations.
+                        </p> 
+                    </div>
+
+                    <div class="bgrid step" data-item="4">
+                        <h3>Get AI Insights</h3>
+                        <p>Receive AI-generated summaries and insights to better understand the news.
+                        </p> 
+                    </div>  
+
+                </div>           
+           </div> <!-- end about-how-content -->
+
+        </div> <!-- end about-how -->
+
+    </section> <!-- end about -->
+{% endblock %}

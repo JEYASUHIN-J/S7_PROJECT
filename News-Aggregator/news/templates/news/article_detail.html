@@ -1,0 +1,250 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Article Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light p-3 shadow-sm">
+                    <li class="breadcrumb-item"><a href="{% url 'menu' %}">Dashboard</a></li>
+                    {% if article_type == 'tech' %}
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Technology News</a></li>
+                    {% elif article_type == 'economy' %}
+                        <li class="breadcrumb-item"><a href="{% url 'economy_home' %}">Economy News</a></li>
+                    {% elif article_type == 'sports' %}
+                        <li class="breadcrumb-item"><a href="{% url 'sports_home' %}">Sports News</a></li>
+                    {% elif article_type == 'politics' %}
+                        <li class="breadcrumb-item"><a href="{% url 'politics_home' %}">Politics News</a></li>
+                    {% elif article_type == 'lifestyle' %}
+                        <li class="breadcrumb-item"><a href="{% url 'lifestyle_home' %}">Lifestyle News</a></li>
+                    {% elif article_type == 'entertainment' %}
+                        <li class="breadcrumb-item"><a href="{% url 'entertainment_home' %}">Entertainment News</a></li>
+                    {% endif %}
+                    <li class="breadcrumb-item active">Article Details</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Article Content -->
+            <div class="card shadow mb-4 border-0 hover-shadow">
+                <img src="{{ article.image }}" class="card-img-top" alt="{{ article.title }}" style="max-height: 500px; object-fit: cover;">
+                <div class="card-body">
+                    <span class="badge badge-primary mb-2">{{ article.source }}</span>
+                    <h1 class="card-title">{{ article.title }}</h1>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="rating">
+                            <span class="mr-2 font-weight-bold">Average Rating:</span>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= avg_rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <span class="ml-2 text-muted">({{ article.comments.count }} reviews)</span>
+                        </div>
+                        <a href="{{ article.url }}" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-external-link-alt mr-1"></i>Read Full Article
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card shadow mb-4 border-0">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0"><i class="fas fa-comments mr-2 text-primary"></i>Comments & Reviews</h3>
+                </div>
+                <div class="card-body">
+                    {% if user.is_authenticated %}
+                        <!-- Add Comment Form -->
+                        <form method="POST" action="{% url 'add_comment' article_type=article_type article_id=article.id %}" class="mb-4 comment-form p-4 bg-light rounded">
+                            {% csrf_token %}
+                            <h4 class="mb-3">Share Your Thoughts</h4>
+                            <div class="form-group">
+                                <label for="rating"><i class="fas fa-star text-warning mr-1"></i>Your Rating</label>
+                                <div class="star-rating">
+                                    {% for i in "12345" %}
+                                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required>
+                                        <label for="star{{ i }}" title="{{ i }} stars">
+                                            <i class="fas fa-star"></i>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="content"><i class="fas fa-comment-alt mr-1"></i>Your Comment</label>
+                                <textarea class="form-control" id="content" name="content" rows="3" placeholder="What did you think about this article?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-paper-plane mr-1"></i>Submit Comment
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle mr-1"></i>Please <a href="{% url 'login' %}">login</a> to leave a comment and rating.
+                        </div>
+                    {% endif %}
+
+                    <!-- Comments List -->
+                    <h4 class="mb-3"><i class="fas fa-user-comments mr-2"></i>What People Say</h4>
+                    <div class="comments-list">
+                        {% for comment in article.comments.all %}
+                            <div class="comment mb-4 p-3 bg-light rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="user-info d-flex align-items-center">
+                                        <div class="user-avatar bg-primary text-white rounded-circle mr-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            {{ comment.user.username|make_list|first|upper }}
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0 font-weight-bold">{{ comment.user.username }}</h5>
+                                            <small class="text-muted">
+                                                <i class="far fa-clock mr-1"></i>{{ comment.created_at|date:"F j, Y, g:i a" }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="rating">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= comment.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="comment-content mt-2 p-3 bg-white rounded">
+                                    <p class="mb-0">{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="text-center py-5">
+                                <i class="far fa-comments fa-3x text-muted mb-3"></i>
+                                <p class="lead">No comments yet. Be the first to comment!</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- AI Insights -->
+            <div class="card shadow mb-4 border-0 hover-shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-robot mr-2"></i>AI Insights
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Our AI can analyze this article and provide key insights, summaries, and additional context.</p>
+                    <button class="btn btn-success btn-block" onclick="getAIInsights('{{ article.id }}')">
+                        <i class="fas fa-lightbulb mr-1"></i>Generate Insights
+                    </button>
+                    <div id="ai-insights" class="mt-3"></div>
+                </div>
+            </div>
+
+            <!-- Related Articles -->
+            <div class="card shadow border-0 hover-shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-newspaper mr-2"></i>Related Articles
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% for related in related_articles %}
+                        <div class="related-article mb-3 pb-3 border-bottom">
+                            <h6>
+                                <a href="{% url 'article_detail' article_type=article_type pk=related.id %}">{{ related.title }}</a>
+                            </h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-globe mr-1"></i>{{ related.source }}
+                                </small>
+                                <a href="{% url 'article_detail' article_type=article_type pk=related.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-3">
+                            <i class="fas fa-search fa-2x text-muted mb-3"></i>
+                            <p class="text-muted">No related articles found.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for AI Insights -->
+<script>
+function getAIInsights(articleId) {
+    const insightsDiv = document.getElementById('ai-insights');
+    insightsDiv.innerHTML = '<div class="d-flex justify-content-center"><div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div></div>';
+    
+    fetch(`/ai-news/get-insights/${articleId}/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                insightsDiv.innerHTML = `<div class="alert alert-success mt-3"><i class="fas fa-check-circle mr-2"></i>${data.insights}</div>`;
+            } else {
+                insightsDiv.innerHTML = `<div class="alert alert-danger mt-3"><i class="fas fa-exclamation-circle mr-2"></i>${data.error}</div>`;
+            }
+        })
+        .catch(error => {
+            insightsDiv.innerHTML = '<div class="alert alert-danger mt-3"><i class="fas fa-exclamation-triangle mr-2"></i>Error generating insights. Please try again.</div>';
+        });
+}
+</script>
+
+<style>
+.hover-shadow {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
+}
+
+/* Star Rating CSS */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    cursor: pointer;
+    width: 30px;
+    font-size: 30px;
+    color: #ddd;
+    margin: 0 2px;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+    color: #ffcc00;
+}
+
+.comment-form {
+    border-left: 4px solid #007bff;
+}
+
+.user-avatar {
+    font-size: 18px;
+}
+</style>
+{% endblock content %} 

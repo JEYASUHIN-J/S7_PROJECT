@@ -1,0 +1,59 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="mb-3">AI-Powered News Insights</h2>
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Insights for {{ category|title }} News</h5>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Change Category
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'all' %}">All Categories</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'general' %}">General</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'economy' %}">Economy</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'sports' %}">Sports</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'politics' %}">Politics</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'lifestyle' %}">Lifestyle</a>
+                            <a class="dropdown-item" href="{% url 'ai_news:news_insights' 'entertainment' %}">Entertainment</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if success %}
+                        <div class="insights-content">
+                            {{ insights|linebreaks }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <p>Unable to generate insights at this time. Please try again later.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Headlines Analyzed</h4>
+            <div class="list-group">
+                {% for headline in headlines %}
+                    <a href="{{ headline.url }}" class="list-group-item list-group-item-action" target="_blank">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ headline.title }}</h5>
+                            <small>{{ headline.source }}</small>
+                        </div>
+                    </a>
+                {% empty %}
+                    <div class="list-group-item">No headlines available</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

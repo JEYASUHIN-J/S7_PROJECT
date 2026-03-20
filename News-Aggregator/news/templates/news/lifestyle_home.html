@@ -1,0 +1,98 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">Lifestyle & Health News</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for object in object_list %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ object.image }}" class="card-img-top" alt="{{ object.title }}" style="height: 300px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'article_detail' article_type='lifestyle' pk=object.id %}" class="text-dark">{{ object.title }}</a>
+                        </h5>
+                        <p class="text-muted">Source: {{ object.source }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{{ object.url }}" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-external-link-alt mr-1"></i>Read Full Article
+                                </a>
+                                <a href="{% url 'article_detail' article_type='lifestyle' pk=object.id %}" class="btn btn-outline-secondary ml-2">
+                                    <i class="fas fa-comments mr-1"></i>Comments
+                                    <span class="badge badge-light">{{ object.comments.count }}</span>
+                                </a>
+                            </div>
+                            <div class="rating">
+                                {% with avg_rating=object.comments.all|dictsort:"rating"|last %}
+                                    {% if avg_rating %}
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= avg_rating.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Page navigation" class="d-flex justify-content-center">
+                {% if is_paginated %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="First">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock content %}

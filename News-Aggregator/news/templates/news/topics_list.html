@@ -1,0 +1,130 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 mb-4"><i class="fas fa-robot mr-3"></i>AI BASED NEWS AGGREGATOR</h1>
+            <p class="lead">Select a category to get the latest news powered by AI</p>
+            <hr class="my-4">
+        </div>
+    </div>
+    
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-microchip mr-2"></i>Technology</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/tech.jpg' %}" alt="Technology News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">Latest technology trends, gadgets, and innovations from around the world.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape' %}" class="btn btn-primary btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Tech News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-line mr-2"></i>Economy</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/economy.jpg' %}" alt="Economy News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">Financial updates, market trends, and economic developments.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape1' %}" class="btn btn-success btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Economy News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-running mr-2"></i>Sports</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/sports.jpg' %}" alt="Sports News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">All the latest sports updates, matches, and athlete news.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape2' %}" class="btn btn-danger btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Sports News
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-landmark mr-2"></i>Politics</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/politics.jpg' %}" alt="Politics News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">Stay updated with political developments and policy changes.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape3' %}" class="btn btn-info btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Politics News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0"><i class="fas fa-heartbeat mr-2"></i>Lifestyle & Health</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/lifestyle.jpg' %}" alt="Lifestyle News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">Health and wellness trends, lifestyle tips, and more.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape4' %}" class="btn btn-warning btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Lifestyle News
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm hover-card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-film mr-2"></i>Entertainment</h5>
+                </div>
+                <img class="card-img-top" src="{% static 'news/images/entertainment.png' %}" alt="Entertainment News" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <p class="card-text">Latest from the entertainment world - movies, music, and celebrities.</p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'scrape5' %}" class="btn btn-secondary btn-block">
+                        <i class="fas fa-sync-alt mr-2"></i>Get Entertainment News
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+    }
+</style>
+{% endblock content %}

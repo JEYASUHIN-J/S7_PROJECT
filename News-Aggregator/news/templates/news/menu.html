@@ -1,0 +1,115 @@
+{% extends "news/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron bg-light">
+                <h1 class="display-4">Welcome to AI News Aggregator</h1>
+                <p class="lead">Your personalized news dashboard powered by artificial intelligence</p>
+                <hr class="my-4">
+                <p>Explore news categories or try our AI-powered features</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Categories -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="mb-4">News Categories</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/tech.jpg' %}" class="card-img-top" alt="Technology News">
+                <div class="card-body">
+                    <h5 class="card-title">Technology News</h5>
+                    <p class="card-text">Stay updated with the latest tech trends and innovations.</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Browse Tech News</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/economy.jpg' %}" class="card-img-top" alt="Economy News">
+                <div class="card-body">
+                    <h5 class="card-title">Economy News</h5>
+                    <p class="card-text">Get insights into global economic trends and market updates.</p>
+                    <a href="{% url 'economy_home' %}" class="btn btn-primary">Browse Economy News</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/sports.jpg' %}" class="card-img-top" alt="Sports News">
+                <div class="card-body">
+                    <h5 class="card-title">Sports News</h5>
+                    <p class="card-text">Follow your favorite sports and athletes.</p>
+                    <a href="{% url 'sports_home' %}" class="btn btn-primary">Browse Sports News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/politics.jpg' %}" class="card-img-top" alt="Politics News">
+                <div class="card-body">
+                    <h5 class="card-title">Politics News</h5>
+                    <p class="card-text">Stay informed about political developments and policies.</p>
+                    <a href="{% url 'politics_home' %}" class="btn btn-primary">Browse Politics News</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/lifestyle.jpg' %}" class="card-img-top" alt="Lifestyle News">
+                <div class="card-body">
+                    <h5 class="card-title">Lifestyle News</h5>
+                    <p class="card-text">Discover trends in health, wellness, and lifestyle.</p>
+                    <a href="{% url 'lifestyle_home' %}" class="btn btn-primary">Browse Lifestyle News</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% static 'news/images/entertainment.png' %}" class="card-img-top" alt="Entertainment News">
+                <div class="card-body">
+                    <h5 class="card-title">Entertainment News</h5>
+                    <p class="card-text">Get the latest updates from the entertainment world.</p>
+                    <a href="{% url 'entertainment_home' %}" class="btn btn-primary">Browse Entertainment News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Features -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2 class="mb-4">AI-Powered Features</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card bg-light shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">News Insights</h5>
+                    <p class="card-text">Get AI-generated insights about trending news topics and key takeaways.</p>
+                    <a href="{% url 'ai_news:all_insights' %}" class="btn btn-success">View News Insights</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card bg-light shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Personalized Recommendations</h5>
+                    <p class="card-text">Get news recommendations tailored to your interests using AI.</p>
+                    <a href="{% url 'ai_news:personalized_news' %}" class="btn btn-success">View Personalized News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
